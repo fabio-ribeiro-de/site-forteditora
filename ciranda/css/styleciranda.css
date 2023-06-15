@@ -59,14 +59,13 @@ body {
   justify-content: space-between;
 }
 
-.top-bar i {
-  font-size: 30px;
-  color: var(--lightblack);
-}
 
 .top-bar span {
   font-size: 18px;
   color: var(--lightblack);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .img-area {
