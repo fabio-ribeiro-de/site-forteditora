@@ -13,7 +13,7 @@ let allMusic = [
   },
   {
     name: "03 - B (A BARATA)",
-    artist: "Teste",
+    artist: "FortEditora",
     img: "music-3",
     src: "music-3",
   },
