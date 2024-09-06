@@ -1064,13 +1064,15 @@ a {
     left: -1rem;
   }
 }
-.cid-u0ADMReVzV {
-  background-image: url("../../../assets/images/dsc-568.jpeg");
+.cid-unBrLZ3PVm {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background-color: #ded9d9;
 }
-.cid-u0ADMReVzV .mbr-fallback-image.disabled {
+.cid-unBrLZ3PVm .mbr-fallback-image.disabled {
   display: none;
 }
-.cid-u0ADMReVzV .mbr-fallback-image {
+.cid-unBrLZ3PVm .mbr-fallback-image {
   display: block;
   background-size: cover;
   background-position: center center;
@@ -1079,13 +1081,18 @@ a {
   position: absolute;
   top: 0;
 }
-.cid-u0ADMReVzV .mbr-section-title {
-  color: #232323;
-  text-align: left;
+.cid-unBrLZ3PVm .row {
+  align-items: center;
 }
-.cid-u0ADMReVzV .mbr-text,
-.cid-u0ADMReVzV .mbr-section-btn {
-  color: #353535;
+@media (max-width: 991px) {
+  .cid-unBrLZ3PVm .image-wrapper {
+    padding: 1rem;
+  }
+}
+@media (min-width: 992px) {
+  .cid-unBrLZ3PVm .text-wrapper {
+    padding: 0 2rem;
+  }
 }
 .cid-u0ANobwpaF {
   padding-top: 1rem;
