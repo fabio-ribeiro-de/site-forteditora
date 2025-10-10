@@ -30,8 +30,8 @@ window.addEventListener(
 function loadMusic(indexNumb) {
   musicName.innerText = allMusic[indexNumb - 1].name;
   musicArtist.innerText = allMusic[indexNumb - 1].artist;
-  musicImg.src = `assets-ciranda/capa-album/${allMusic[indexNumb - 1].img}.png`;
-  mainAudio.src = `assets-ciranda/musicas-ciranda/${allMusic[indexNumb - 1].src}.mp3`;
+  musicImg.src = `../ciranda/assets-ciranda/capa-album/${allMusic[indexNumb - 1].img}.png`;
+  mainAudio.src = `../ciranda/assets-ciranda/musicas-ciranda/${allMusic[indexNumb - 1].src}.mp3`;
 
 }
 
@@ -239,7 +239,7 @@ for (let i = 0; i < allMusic.length; i++) {
           <div class="row">
             <span>${allMusic[i].name}</span>
           </div>
-          <audio class="${allMusic[i].src}" src="assets-ciranda/musicas-ciranda/${allMusic[i].src}.mp3"></audio>
+          <audio class="${allMusic[i].src}" src="../ciranda/assets-ciranda/musicas-ciranda/${allMusic[i].src}.mp3"></audio>
           <span id="${allMusic[i].src}" class="audio-duration" > 1: 25</span>
         </li>
   `;
