@@ -10,12 +10,6 @@ let allMusic = [
     artist: "FortEditora",
     img: "musica-1",
     src: "musica-2",
-  },
-  {
-    name: "03: Cachinhos de Laurinha",
-    artist: "FortEditora",
-    img: "musica-1",
-    src: "musica-3",
   }
 ]
 
