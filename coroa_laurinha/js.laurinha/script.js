@@ -23,10 +23,13 @@ const AUDIO_DIR = "assets/audios";
 const VIDEO_DIR = "assets/videos";
 
 function getMediaPath(item) {
+  if (item.url) return item.url;
   return item.type === "video"
     ? `${VIDEO_DIR}/${item.src}.mp4`
     : `${AUDIO_DIR}/${item.src}.mp3`;
 }
+
+
 
 function formatTime(sec) {
   if (isNaN(sec) || !isFinite(sec)) return "0:00";
