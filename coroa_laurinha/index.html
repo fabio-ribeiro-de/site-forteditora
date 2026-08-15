@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>Player - A Coroa de Laurinha</title>
+  <link rel="stylesheet" href="css/styleemocao.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="top-bar">
+      <span>Player - A Coroa de Laurinha</span>
+    </div>
+
+    <!-- ÁREA DE MÍDIA: capa (modo áudio) OU vídeo (modo vídeo) -->
+    <div class="img-area">
+      <img src="" alt="">
+      <video id="main-video" preload="metadata" playsinline></video>
+      <button id="center-play-pause" class="center-play-pause" title="Play/Pause" aria-label="Play/Pause">
+        <i class="material-icons">play_arrow</i>
+      </button>
+      <button id="fullscreen-btn" class="fullscreen-btn" title="Tela cheia" aria-label="Tela cheia">
+        <i class="material-icons">fullscreen</i>
+      </button>
+    </div>
+
+    <div class="song-details">
+      <p class="name"></p>
+      <p class="artist"></p>
+    </div>
+
+    <div class="progress-area">
+      <div class="progress-bar"></div>
+      <div class="timer">
+        <span class="current">0:00</span>
+        <span class="duration"></span>
+      </div>
+      <audio id="main-audio" src=""></audio>
+    </div>
+
+    <div class="controls">
+      <i id="repeat-plist" class="material-icons" title="Continuar Playlist">repeat</i>
+      <i id="prev" class="material-icons">skip_previous</i>
+      <div class="play-pause">
+        <i class="material-icons">play_arrow</i>
+      </div>
+      <i id="next" class="material-icons">skip_next</i>
+      <i id="more-music" class="material-icons">queue_music</i>
+    </div>
+
+    <div class="music-list">
+      <div class="header">
+        <div class="row">
+          <i class="material-icons">queue_music</i>
+          <span>Lista de Mídia</span>
+        </div>
+        <i id="close" class="material-icons">close</i>
+      </div>
+      <ul>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js.laurinha/music-list.js"></script>
+  <script src="js.laurinha/script.js"></script>
+</body>
+
+</html>
