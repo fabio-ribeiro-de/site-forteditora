@@ -59,7 +59,6 @@ body {
   justify-content: space-between;
 }
 
-
 .top-bar span {
   text-align: center;
   font-size: 18px;
@@ -67,6 +66,7 @@ body {
 }
 
 .img-area {
+  position: relative;
   height: 256px;
   width: 100%;
   margin-top: 25px;
@@ -215,7 +215,6 @@ body {
 }
 
 /*Usar esta classe em Javascript*/
-
 .music-list.show {
   bottom: 0%;
   opacity: 1;
@@ -287,5 +286,123 @@ ul li .audio-duration {
 
 ul li.playing {
   color: var(--azul-claro);
+  pointer-events: none;
+}
+
+/* ============ NOVO: suporte a vídeo ============ */
+/* <video> dentro da .img-area: invisível por padrão (modo áudio) */
+.img-area video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* não corta o vídeo; letterbox em fundo preto */
+  background: #000;
+  /* fundo do letterbox */
+  display: none;
+}
+
+/* Quando o wrapper estiver em modo vídeo: esconde a capa, mostra o vídeo */
+.wrapper.mode-video .img-area img {
+  display: none;
+}
+
+.wrapper.mode-video .img-area video {
+  display: block;
+}
+
+.music-list ul li video {
+  display: none;
+}
+
+/* Botão de tela cheia: invisível no modo áudio, visível no modo vídeo */
+.fullscreen-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.fullscreen-btn i {
+  font-size: 22px;
+}
+
+.wrapper.mode-video .fullscreen-btn {
+  display: flex;
+}
+
+/* Container em tela cheia */
+.img-area:fullscreen,
+.img-area:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  background: #000;
+}
+
+.img-area:fullscreen video,
+.img-area:-webkit-full-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Botão play/pause central: invisível no modo áudio, visível no modo vídeo */
+.center-play-pause {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 64px;
+  height: 64px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.center-play-pause:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.center-play-pause i {
+  font-size: 34px;
+  margin-left: 2px;
+  /* compensa o desvio óptico do ícone play */
+}
+
+.wrapper.mode-video .center-play-pause {
+  display: flex;
+}
+
+/* Auto-hide: controles somem quando o cursor fica parado (vídeo tocando) */
+.img-area .fullscreen-btn,
+.img-area .center-play-pause {
+  transition: opacity 0.3s ease, background 0.2s ease;
+}
+
+.img-area.controls-hidden .fullscreen-btn,
+.img-area.controls-hidden .center-play-pause {
+  opacity: 0;
   pointer-events: none;
 }
