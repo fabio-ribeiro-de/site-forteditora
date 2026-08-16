@@ -18,7 +18,6 @@ let allMusic = [
     artist: "FortEditora",
     img: "musica-1",
     src: "video",
-    url: "https://drive.usercontent.google.com/download?id=1x9u11pqzjEFC1cYYB8czz-BWEF7JKrOS&export=download",
     type: "video",
   }
 ]

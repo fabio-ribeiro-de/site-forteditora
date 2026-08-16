@@ -12,104 +12,122 @@ const wrapper = document.querySelector(".wrapper"),
   musicList = document.querySelector(".music-list"),
   moreMusicBtn = document.querySelector("#more-music"),
   closemoreMusic = document.querySelector("#close"),
-  repeatBtn = document.querySelector("#repeat-plist");
+  repeatBtn = document.querySelector("#repeat-plist"),
+  fullscreenBtn = document.querySelector("#fullscreen-btn"),
+  centerPlayPauseBtn = document.querySelector("#center-play-pause");
 
 let musicIndex = Math.floor(Math.random() * allMusic.length) + 1;
 let isMusicPlaying = false;
 let isShuffle = false;
 let activeMedia = mainAudio;
 
-const AUDIO_DIR = "assets/audios";
-const VIDEO_DIR = "assets/videos";
+const AUDIO_DIR = "assets/musicas";
+const VIDEO_EMBED_URL = "https://drive.google.com/file/d/1x9u11pqzjEFC1cYYB8czz-BWEF7JKrOS/preview";
 
 function getMediaPath(item) {
   if (item.url) return item.url;
-  return item.type === "video"
-    ? `${VIDEO_DIR}/${item.src}.mp4`
-    : `${AUDIO_DIR}/${item.src}.mp3`;
+  return AUDIO_DIR + "/" + item.src + ".mp3";
 }
-
-
 
 function formatTime(sec) {
   if (isNaN(sec) || !isFinite(sec)) return "0:00";
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  return `${m}:${s < 10 ? "0" + s : s}`;
+  var m = Math.floor(sec / 60);
+  var s = Math.floor(sec % 60);
+  return m + ":" + (s < 10 ? "0" + s : s);
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", function () {
   loadMusic(musicIndex);
   playingNow();
 });
 
+function stopVideo() {
+  if (mainVideo && mainVideo.tagName === "IFRAME") {
+    mainVideo.src = "";
+  }
+}
+
 function loadMusic(indexNumb) {
-  const item = allMusic[indexNumb - 1];
+  var item = allMusic[indexNumb - 1];
   if (!item) return;
 
   musicName.innerText = item.name;
   musicArtist.innerText = item.artist;
-  musicImg.src = `assets/capa-album/${item.img}.png`;
+  musicImg.src = "assets/capa-album/" + item.img + ".png";
 
-  if (item.type === "video" && mainVideo) {
-    activeMedia = mainVideo;
-    mainVideo.poster = `assets/images/${item.img}.jpg`;
-    mainVideo.src = getMediaPath(item);
+  stopVideo();
+
+  if (item.type === "video") {
+    wrapper.classList.add("mode-video");
     mainAudio.pause();
     mainAudio.removeAttribute("src");
-    wrapper.classList.add("mode-video");
-    console.log("[player] VÍDEO:", mainVideo.src);
+    isMusicPlaying = false;
+    syncPlayPauseIcons();
+    if (mainVideo && mainVideo.tagName === "IFRAME") {
+      mainVideo.src = VIDEO_EMBED_URL;
+    }
+    if (centerPlayPauseBtn) centerPlayPauseBtn.style.display = "none";
   } else {
+    wrapper.classList.remove("mode-video");
     activeMedia = mainAudio;
     mainAudio.src = getMediaPath(item);
-    if (mainVideo) {
-      mainVideo.pause();
-      mainVideo.removeAttribute("src");
-    }
-    wrapper.classList.remove("mode-video");
+    if (centerPlayPauseBtn) centerPlayPauseBtn.style.display = "flex";
     console.log("[player] ÁUDIO:", mainAudio.src);
   }
 }
 
 function playMusic() {
-  const p = activeMedia.play();
-  if (p && p.catch) p.catch(() => console.warn("[player] Reprodução bloqueada:", activeMedia.src));
+  if (wrapper.classList.contains("mode-video")) return;
+  var p = activeMedia.play();
+  if (p && p.catch) p.catch(function () { console.warn("[player] Reprodução bloqueada:", activeMedia.src); });
   isMusicPlaying = true;
-  playPauseBtn.querySelector("i").innerText = "pause";
+  syncPlayPauseIcons();
 }
 
 function pauseMusic() {
+  if (wrapper.classList.contains("mode-video")) return;
   activeMedia.pause();
   isMusicPlaying = false;
-  playPauseBtn.querySelector("i").innerText = "play_arrow";
+  syncPlayPauseIcons();
+  showControls();
 }
 
-playPauseBtn.addEventListener("click", () => {
+function syncPlayPauseIcons() {
+  var icon = isMusicPlaying ? "pause" : "play_arrow";
+  playPauseBtn.querySelector("i").innerText = icon;
+  if (centerPlayPauseBtn) centerPlayPauseBtn.querySelector("i").innerText = icon;
+}
+
+playPauseBtn.addEventListener("click", function () {
   isMusicPlaying ? pauseMusic() : playMusic();
 });
 
-[mainAudio, mainVideo].forEach(media => {
-  if (!media) return;
-  media.addEventListener("timeupdate", updateProgress);
-  media.addEventListener("loadedmetadata", () => {
-    document.querySelector(".timer .duration").innerText = formatTime(media.duration);
+if (centerPlayPauseBtn) {
+  centerPlayPauseBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    isMusicPlaying ? pauseMusic() : playMusic();
   });
-  media.addEventListener("ended", handleEnded);
-  media.addEventListener("error", () => {
-    console.error("[player] Falha ao carregar mídia:", media.currentSrc || media.src);
-    wrapper.classList.remove("mode-video");
-  });
+}
+
+mainAudio.addEventListener("timeupdate", updateProgress);
+mainAudio.addEventListener("loadedmetadata", function () {
+  document.querySelector(".timer .duration").innerText = formatTime(mainAudio.duration);
+});
+mainAudio.addEventListener("ended", handleEnded);
+mainAudio.addEventListener("error", function () {
+  console.error("[player] Falha ao carregar mídia:", mainAudio.currentSrc || mainAudio.src);
 });
 
 function updateProgress(e) {
-  const { currentTime, duration } = e.target;
+  var currentTime = e.target.currentTime;
+  var duration = e.target.duration;
   if (!duration || isNaN(duration)) return;
-  progressBar.style.width = `${(currentTime / duration) * 100}%`;
+  progressBar.style.width = (currentTime / duration) * 100 + "%";
   document.querySelector(".timer .current").innerText = formatTime(currentTime);
 }
 
-progressArea.addEventListener("click", (e) => {
-  const duration = activeMedia.duration;
+progressArea.addEventListener("click", function (e) {
+  var duration = activeMedia.duration;
   if (!duration || isNaN(duration)) return;
   activeMedia.currentTime = (e.offsetX / progressArea.clientWidth) * duration;
 });
@@ -125,7 +143,7 @@ function handleEnded() {
 
 function randomIndex(current) {
   if (allMusic.length <= 1) return 1;
-  let idx;
+  var idx;
   do {
     idx = Math.floor(Math.random() * allMusic.length) + 1;
   } while (idx === current);
@@ -149,8 +167,8 @@ function prevMusic() {
   playingNow();
 }
 
-repeatBtn.addEventListener("click", () => {
-  const icon = repeatBtn.innerText;
+repeatBtn.addEventListener("click", function () {
+  var icon = repeatBtn.innerText;
   if (icon === "repeat") {
     repeatBtn.innerText = "repeat_one";
   } else if (icon === "repeat_one") {
@@ -162,29 +180,28 @@ repeatBtn.addEventListener("click", () => {
   }
 });
 
-const ulTag = document.querySelector("ul");
-for (let i = 0; i < allMusic.length; i++) {
-  const item = allMusic[i];
-  let liTag = `<li li-index="${i + 1}" onclick="clicked(this)">
-    <div class="row">
-      <span>${item.name}</span>
-      <p class="${item.type}"></p>
-    </div>
-    <span class="audio-duration">${item.type === "video" ? "VÍDEO" : "3:40"}</span>`;
+var ulTag = document.querySelector("ul");
+for (var i = 0; i < allMusic.length; i++) {
+  var item = allMusic[i];
+  var liTag = '<li li-index="' + (i + 1) + '" onclick="clicked(this)">' +
+    '<div class="row"><span>' + item.name + '</span><p class="' + item.type + '"></p></div>' +
+    '<span class="audio-duration">' + (item.type === "video" ? "VÍDEO" : "3:40") + '</span>';
 
   if (item.type === "audio") {
-    liTag += `<audio class="${item.src}" src="${AUDIO_DIR}/${item.src}.mp3"></audio>`;
+    liTag += '<audio class="' + item.src + '" src="' + AUDIO_DIR + '/' + item.src + '.mp3"></audio>';
   }
-  liTag += `</li>`;
+  liTag += '</li>';
   ulTag.insertAdjacentHTML("beforeend", liTag);
 
   if (item.type === "audio") {
-    const liAudioTag = ulTag.querySelector(`.${item.src}`);
+    var liAudioTag = ulTag.querySelector("." + item.src);
     if (liAudioTag) {
-      liAudioTag.addEventListener("loadeddata", () => {
-        const durationTag = ulTag.querySelector(`li[li-index="${i + 1}"] .audio-duration`);
-        if (durationTag) durationTag.innerText = formatTime(liAudioTag.duration);
-      });
+      liAudioTag.addEventListener("loadeddata", (function (idx) {
+        return function () {
+          var durationTag = ulTag.querySelector('li[li-index="' + (idx + 1) + '"] .audio-duration');
+          if (durationTag) durationTag.innerText = formatTime(liAudioTag.duration);
+        };
+      })(i));
     }
   }
 }
@@ -197,34 +214,27 @@ function clicked(li) {
 }
 
 function playingNow() {
-  document.querySelectorAll(".music-list ul li").forEach(li => li.classList.remove("playing"));
-  const li = document.querySelector(`.music-list ul li:nth-child(${musicIndex})`);
+  document.querySelectorAll(".music-list ul li").forEach(function (li) { li.classList.remove("playing"); });
+  var li = document.querySelector(".music-list ul li:nth-child(" + musicIndex + ")");
   if (li) {
     li.classList.add("playing");
     musicList.scrollTop = li.offsetTop - 50;
   }
 }
 
-const fullscreenBtn = document.querySelector("#fullscreen-btn");
-
 function toggleFullscreen() {
-  if (!mainVideo) return;
-  const container = document.querySelector(".img-area");
+  var container = document.querySelector(".img-area");
   if (document.fullscreenElement || document.webkitFullscreenElement) {
     (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-  } else {
-    if (container.requestFullscreen) {
-      container.requestFullscreen();
-    } else if (container.webkitRequestFullscreen) {
-      container.webkitRequestFullscreen();
-    } else if (mainVideo.webkitEnterFullscreen) {
-      mainVideo.webkitEnterFullscreen(); // fallback iOS
-    }
+  } else if (container.requestFullscreen) {
+    container.requestFullscreen();
+  } else if (container.webkitRequestFullscreen) {
+    container.webkitRequestFullscreen();
   }
 }
 
 function updateFullscreenIcon() {
-  const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+  var isFs = document.fullscreenElement || document.webkitFullscreenElement;
   fullscreenBtn.querySelector("i").innerText = isFs ? "fullscreen_exit" : "fullscreen";
 }
 
@@ -234,56 +244,24 @@ if (fullscreenBtn) {
   document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
 }
 
-const centerPlayPauseBtn = document.querySelector("#center-play-pause");
-
-// Sincroniza o ícone dos DOIS botões (controles + overlay central)
-function syncPlayPauseIcons() {
-  const icon = isMusicPlaying ? "pause" : "play_arrow";
-  playPauseBtn.querySelector("i").innerText = icon;
-  if (centerPlayPauseBtn) centerPlayPauseBtn.querySelector("i").innerText = icon;
-}
-
-// Ajuste nas funções existentes: troque o innerText manual pela função
-function playMusic() {
-  const p = activeMedia.play();
-  if (p && p.catch) p.catch(() => console.warn("[player] Reprodução bloqueada:", activeMedia.src));
-  isMusicPlaying = true;
-  syncPlayPauseIcons();
-}
-
-function pauseMusic() {
-  activeMedia.pause();
-  isMusicPlaying = false;
-  syncPlayPauseIcons();
-  showControls(); // controles ficam visíveis enquanto pausado
-}
-
-// Clique no overlay central alterna play/pause do vídeo
-if (centerPlayPauseBtn) {
-  centerPlayPauseBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    isMusicPlaying ? pauseMusic() : playMusic();
-  });
-}
-
-const imgArea = document.querySelector(".img-area");
-const HIDE_DELAY = 2500; // 2,5s de cursor parado
-let controlsTimer = null;
+var imgArea = document.querySelector(".img-area");
+var HIDE_DELAY = 2500;
+var controlsTimer = null;
 
 function showControls() {
   if (!wrapper.classList.contains("mode-video")) return;
   imgArea.classList.remove("controls-hidden");
   clearTimeout(controlsTimer);
-  controlsTimer = setTimeout(() => {
+  controlsTimer = setTimeout(function () {
     if (isMusicPlaying) imgArea.classList.add("controls-hidden");
   }, HIDE_DELAY);
 }
 
 imgArea.addEventListener("mousemove", showControls);
 imgArea.addEventListener("mouseenter", showControls);
-imgArea.addEventListener("mouseleave", () => {
+imgArea.addEventListener("mouseleave", function () {
   if (isMusicPlaying) imgArea.classList.add("controls-hidden");
 });
 
-moreMusicBtn.addEventListener("click", () => musicList.classList.add("show"));
-closemoreMusic.addEventListener("click", () => musicList.classList.remove("show"));
+moreMusicBtn.addEventListener("click", function () { musicList.classList.add("show"); });
+closemoreMusic.addEventListener("click", function () { musicList.classList.remove("show"); });
