@@ -14,7 +14,7 @@ let allMusic = [
     type: "audio",
   },
   {
-    name: "03: Vídeo de Teste",
+    name: "03: Amji",
     artist: "FortEditora",
     img: "musica-1",
     src: "video",
