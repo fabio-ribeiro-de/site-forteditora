@@ -21,7 +21,7 @@ let isMusicPlaying = false;
 let isShuffle = false;
 let activeMedia = mainAudio;
 
-const AUDIO_DIR = "assets/musicas";
+const AUDIO_DIR = "/coroa_laurinha/assets/musicas";
 const VIDEO_EMBED_URL = "https://drive.google.com/file/d/1x9u11pqzjEFC1cYYB8czz-BWEF7JKrOS/preview";
 
 function getMediaPath(item) {
