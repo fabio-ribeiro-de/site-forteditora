@@ -22,7 +22,6 @@ let isShuffle = false;
 let activeMedia = mainAudio;
 
 const AUDIO_DIR = "/coroa_laurinha/assets/musicas";
-const VIDEO_EMBED_URL = "https://drive.google.com/file/d/1x9u11pqzjEFC1cYYB8czz-BWEF7JKrOS/preview";
 
 function getMediaPath(item) {
   if (item.url) return item.url;
@@ -53,18 +52,20 @@ function loadMusic(indexNumb) {
 
   musicName.innerText = item.name;
   musicArtist.innerText = item.artist;
-  musicImg.src = "assets/capa-album/" + item.img + ".png";
+  musicImg.src = "/coroa_laurinha/assets/capa-album/" + item.img + ".png";
 
   stopVideo();
 
   if (item.type === "video") {
     wrapper.classList.add("mode-video");
-    mainAudio.pause();
-    mainAudio.removeAttribute("src");
+    if (mainAudio) {
+      mainAudio.pause();
+      mainAudio.removeAttribute("src");
+    }
     isMusicPlaying = false;
     syncPlayPauseIcons();
     if (mainVideo && mainVideo.tagName === "IFRAME") {
-      mainVideo.src = VIDEO_EMBED_URL;
+      mainVideo.src = item.url || "";
     }
     if (centerPlayPauseBtn) centerPlayPauseBtn.style.display = "none";
   } else {
@@ -109,14 +110,16 @@ if (centerPlayPauseBtn) {
   });
 }
 
-mainAudio.addEventListener("timeupdate", updateProgress);
-mainAudio.addEventListener("loadedmetadata", function () {
-  document.querySelector(".timer .duration").innerText = formatTime(mainAudio.duration);
-});
-mainAudio.addEventListener("ended", handleEnded);
-mainAudio.addEventListener("error", function () {
-  console.error("[player] Falha ao carregar mídia:", mainAudio.currentSrc || mainAudio.src);
-});
+if (mainAudio) {
+  mainAudio.addEventListener("timeupdate", updateProgress);
+  mainAudio.addEventListener("loadedmetadata", function () {
+    document.querySelector(".timer .duration").innerText = formatTime(mainAudio.duration);
+  });
+  mainAudio.addEventListener("ended", handleEnded);
+  mainAudio.addEventListener("error", function () {
+    console.error("[player] Falha ao carregar mídia:", mainAudio.currentSrc || mainAudio.src);
+  });
+}
 
 function updateProgress(e) {
   var currentTime = e.target.currentTime;
@@ -220,28 +223,6 @@ function playingNow() {
     li.classList.add("playing");
     musicList.scrollTop = li.offsetTop - 50;
   }
-}
-
-function toggleFullscreen() {
-  var container = document.querySelector(".img-area");
-  if (document.fullscreenElement || document.webkitFullscreenElement) {
-    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-  } else if (container.requestFullscreen) {
-    container.requestFullscreen();
-  } else if (container.webkitRequestFullscreen) {
-    container.webkitRequestFullscreen();
-  }
-}
-
-function updateFullscreenIcon() {
-  var isFs = document.fullscreenElement || document.webkitFullscreenElement;
-  fullscreenBtn.querySelector("i").innerText = isFs ? "fullscreen_exit" : "fullscreen";
-}
-
-if (fullscreenBtn) {
-  fullscreenBtn.addEventListener("click", toggleFullscreen);
-  document.addEventListener("fullscreenchange", updateFullscreenIcon);
-  document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
 }
 
 var imgArea = document.querySelector(".img-area");

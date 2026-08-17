@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player - A Coroa de Laurinha</title>
-  <link rel="stylesheet" href="/coroa_laurinha/css/stylecoroa.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/coroa_laurinha/css/stylecoroa.css">
 </head>
 
 <body>
@@ -15,49 +16,53 @@
     <div class="top-bar">
       <span>Player - A Coroa de Laurinha</span>
     </div>
+
     <div class="img-area">
       <img src="" alt="">
-      <iframe id="main-video" src="https://drive.google.com/file/d/1x9u11pqzjEFC1cYYB8czz-BWEF7JKrOS/preview"
-        allow="autoplay" allowfullscreen></iframe>
+      <iframe id="main-video" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen
+        title="Vídeo"></iframe>
       <button id="center-play-pause" class="center-play-pause" title="Play/Pause" aria-label="Play/Pause">
         <i class="material-icons">play_arrow</i>
       </button>
-      <button id="fullscreen-btn" class="fullscreen-btn" title="Tela cheia" aria-label="Tela cheia">
-        <i class="material-icons">fullscreen</i>
-      </button>
     </div>
+
     <div class="song-details">
       <p class="name"></p>
       <p class="artist"></p>
     </div>
+
     <div class="progress-area">
       <div class="progress-bar"></div>
       <div class="timer">
         <span class="current">0:00</span>
-        <span class="duration"></span>
+        <span class="duration">0:00</span>
       </div>
-      <audio id="main-audio" src=""></audio>
     </div>
+
     <div class="controls">
-      <i id="repeat-plist" class="material-icons" title="Continuar Playlist">repeat</i>
-      <i id="prev" class="material-icons">skip_previous</i>
+      <i class="material-icons" id="repeat-plist" title="Repetir">repeat</i>
+      <i class="material-icons" id="prev">skip_previous</i>
       <div class="play-pause">
         <i class="material-icons">play_arrow</i>
       </div>
-      <i id="next" class="material-icons">skip_next</i>
-      <i id="more-music" class="material-icons">queue_music</i>
+      <i class="material-icons" id="next">skip_next</i>
+      <i class="material-icons" id="more-music">queue_music</i>
     </div>
+
     <div class="music-list">
       <div class="header">
         <div class="row">
           <i class="material-icons">queue_music</i>
           <span>Lista de Mídia</span>
         </div>
-        <i id="close" class="material-icons">close</i>
+        <i class="material-icons" id="close">close</i>
       </div>
       <ul></ul>
     </div>
   </div>
+
+  <audio id="main-audio" preload="metadata"></audio>
+
   <script src="/coroa_laurinha/js.laurinha/music-list.js"></script>
   <script src="/coroa_laurinha/js.laurinha/script.js"></script>
 </body>

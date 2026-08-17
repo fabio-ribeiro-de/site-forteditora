@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player - Amji</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/amji/css/styleamji.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="top-bar">
+      <span>Player - Amji</span>
+    </div>
+
+    <div class="img-area">
+      <img src="" alt="">
+      <iframe id="main-video" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen
+        title="Vídeo"></iframe>
+      <button id="center-play-pause" class="center-play-pause" title="Play/Pause" aria-label="Play/Pause">
+        <i class="material-icons">play_arrow</i>
+      </button>
+    </div>
+
+    <div class="song-details">
+      <p class="name"></p>
+      <p class="artist"></p>
+    </div>
+
+    <div class="progress-area">
+      <div class="progress-bar"></div>
+      <div class="timer">
+        <span class="current">0:00</span>
+        <span class="duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <i class="material-icons" id="repeat-plist" title="Repetir">repeat</i>
+      <i class="material-icons" id="prev">skip_previous</i>
+      <div class="play-pause">
+        <i class="material-icons">play_arrow</i>
+      </div>
+      <i class="material-icons" id="next">skip_next</i>
+      <i class="material-icons" id="more-music">queue_music</i>
+    </div>
+
+    <div class="music-list">
+      <div class="header">
+        <div class="row">
+          <i class="material-icons">queue_music</i>
+          <span>Lista de Mídia</span>
+        </div>
+        <i class="material-icons" id="close">close</i>
+      </div>
+      <ul></ul>
+    </div>
+  </div>
+
+  <audio id="main-audio" preload="metadata"></audio>
+
+  <script src="/amji/js.amji/music-list.js"></script>
+  <script src="/amji/js.amji/script.js"></script>
+</body>
+
+</html>
