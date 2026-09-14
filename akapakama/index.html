@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player em Construção - A Kapa Kama</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    *::before,
+    *::after {
+      padding: 0;
+      margin: 0;
+    }
+
+    :root {
+      --azul-claro: #1D84C3;
+      --verde-claro: #B7D37A;
+      --verde-escuro: #91D300;
+      --verde-shadow: #73A40A;
+      --cinza-claro: #ABAAAA;
+      --lightbshadow: rgba(0, 0, 0, 0.15);
+      --branco: #ffffff;
+      --branco-escuro: #cecaca;
+      --lightblack: #515c6f;
+      --azul-claro-white: #79ADCC;
+      --azul-escuro: #007FCD;
+      --azul-escuro-shadow: #064E7A;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 380px;
+      overflow: hidden;
+      position: relative;
+      background: var(--branco);
+      border-radius: 15px;
+      padding: 25px 30px;
+      box-shadow: 0px 6px 15px var(--lightbshadow);
+    }
+
+    .wrapper i {
+      cursor: pointer;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-bar span {
+      text-align: center;
+      font-size: 18px;
+      color: var(--lightblack);
+    }
+
+    /* Área de mídia (mesma proporção 8/7 do player) */
+    .img-area {
+      position: relative;
+      width: 100%;
+      margin-top: 25px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px var(--lightbshadow);
+      aspect-ratio: 8 / 7;
+      background: linear-gradient(135deg, var(--azul-claro) 0%, var(--azul-escuro) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .img-area .material-icons.construction-icon {
+      font-size: 72px;
+      color: rgba(255, 255, 255, 0.95);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--azul-claro-white) 0%, var(--azul-escuro) 100%);
+      color: var(--branco);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .badge .material-icons {
+      font-size: 15px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.95;
+      }
+
+      50% {
+        transform: scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    .song-details {
+      text-align: center;
+      margin: 30px 0;
+      color: var(--lightblack);
+    }
+
+    .song-details .name {
+      font-size: 21px;
+    }
+
+    .song-details .artist {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .progress-area {
+      height: 4px;
+      width: 100%;
+      background: #f0f0f0;
+      border-radius: 50px;
+    }
+
+    .progress-area .progress-bar {
+      height: inherit;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--azul-claro-white) 0%, var(--azul-escuro) 100%);
+      transition: width 0.4s ease;
+    }
+
+    .progress-area .timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
+    .timer span {
+      font-size: 13px;
+      color: var(--lightblack);
+    }
+
+    .controls {
+      margin: 40px 0 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .controls i {
+      font-size: 28px;
+      user-select: none;
+      cursor: default;
+      background: linear-gradient(var(--azul-claro-white) 0%, var(--azul-escuro) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.85;
+    }
+
+    .controls i:nth-child(2),
+    .controls i:nth-child(4) {
+      font-size: 43px;
+    }
+
+    .controls #prev {
+      margin-right: -13px;
+    }
+
+    .controls #next {
+      margin-left: -13px;
+    }
+
+    .controls .play-pause {
+      position: relative;
+      height: 54px;
+      width: 54px;
+      background: linear-gradient(var(--branco) 0%, var(--branco-escuro) 100%);
+      box-shadow: 0px 0px 5px var(--azul-escuro-shadow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .controls .play-pause::before {
+      content: "";
+      position: absolute;
+      height: 43px;
+      width: 43px;
+      border-radius: inherit;
+      background: linear-gradient(var(--azul-claro-white) 0%, var(--azul-escuro) 100%);
+    }
+
+    .controls .play-pause i {
+      height: 43px;
+      width: 43px;
+      line-height: 43px;
+      text-align: center;
+      border-radius: inherit;
+      position: relative;
+      color: var(--branco);
+      background: none;
+      -webkit-text-fill-color: var(--branco);
+      opacity: 1;
+      font-size: 28px;
+    }
+
+    .notice {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--lightblack);
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="top-bar">
+      <span>Player - A Kapa Kama</span>
+    </div>
+
+    <div class="img-area">
+      <i class="material-icons construction-icon">construction</i>
+      <span class="badge">
+        <i class="material-icons">engineering</i>
+        Em Construção
+      </span>
+    </div>
+
+    <div class="song-details">
+      <p class="name">Player em construção</p>
+      <p class="artist">Em breve, novas mídias disponíveis</p>
+    </div>
+
+    <div class="progress-area">
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="timer">
+        <span class="current">0:00</span>
+        <span class="duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <i class="material-icons" id="repeat-plist">repeat</i>
+      <i class="material-icons" id="prev">skip_previous</i>
+      <div class="play-pause">
+        <i class="material-icons">play_arrow</i>
+      </div>
+      <i class="material-icons" id="next">skip_next</i>
+      <i class="material-icons" id="more-music">queue_music</i>
+    </div>
+
+    <p class="notice" id="notice">
+      Estamos preparando novas músicas e vídeos para você. Volte em breve!
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var progressBar = document.getElementById("progressBar");
+      var notice = document.getElementById("notice");
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Mensagens rotativas para dar sensação de progresso
+      var messages = [
+        "Estamos preparando novas músicas e vídeos para você. Volte em breve!",
+        "Ajustando os últimos detalhes do player...",
+        "Novos conteúdos chegando em breve."
+      ];
+      var msgIndex = 0;
+
+      // Barra indeterminada: sobe e desce entre 8% e 92%
+      var width = 8;
+      var direction = 1;
+
+      function tick() {
+        if (progressBar) {
+          width += direction * 1.6;
+          if (width >= 92) { width = 92; direction = -1; }
+          if (width <= 8) { width = 8; direction = 1; }
+          progressBar.style.width = width.toFixed(1) + "%";
+        }
+      }
+
+      if (!reduceMotion && progressBar) {
+        setInterval(tick, 60);
+      } else if (progressBar) {
+        progressBar.style.width = "50%";
+      }
+
+      // Rotaciona a mensagem a cada 6s
+      if (notice) {
+        setInterval(function () {
+          msgIndex = (msgIndex + 1) % messages.length;
+          notice.textContent = messages[msgIndex];
+        }, 6000);
+      }
+
+      // Página informativa: nenhum controle reproduz mídia
+      console.log("[player] Página em construção — sem reprodução de mídia.");
+    })();
+  </script>
+</body>
+
+</html>
