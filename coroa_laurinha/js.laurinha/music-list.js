@@ -1,41 +1,43 @@
 let allMusic = [
+  /*
+    {
+      name: "01: Cachinhos de Laurinha",
+      artist: "FortEditora",
+      img: "musica-1",
+      src: "musica-1",
+      type: "audio"
+    },
+    {
+      name: "02: Cachinhos de Laurinha",
+      artist: "FortEditora",
+      img: "musica-1",
+      src: "musica-2",
+      type: "audio"
+    },
+    {
+      name: "03: Cachinhos de Laurinha",
+      artist: "FortEditora",
+      img: "musica-1",
+      src: "musica-3",
+      type: "audio"
+    },
+    {
+      name: "04: Cachinhos de Laurinha",
+      artist: "FortEditora",
+      img: "musica-1",
+      src: "musica-4",
+      type: "audio"
+    },
+  */
   {
-    name: "01: Cachinhos de Laurinha",
-    artist: "FortEditora",
-    img: "musica-1",
-    src: "musica-1",
-    type: "audio"
-  },
-  {
-    name: "02: Cachinhos de Laurinha",
-    artist: "FortEditora",
-    img: "musica-1",
-    src: "musica-2",
-    type: "audio"
-  },
-  {
-    name: "03: Cachinhos de Laurinha",
-    artist: "FortEditora",
-    img: "musica-1",
-    src: "musica-3",
-    type: "audio"
-  },
-  {
-    name: "04: Cachinhos de Laurinha",
-    artist: "FortEditora",
-    img: "musica-1",
-    src: "musica-4",
-    type: "audio"
-  },
-  {
-    name: "05: Vídeo Coroa de Laurinha",
+    name: "01: A Coroa de Laurinha",
     artist: "FortEditora",
     img: "musica-1",
     src: "video-1",
     type: "video",
     url: "https://drive.google.com/file/d/14PEhJHpJCX6JDPUUKkRAbPTvmjK-hIXc/preview"
   }, {
-    name: "06: Vídeo Coroa de Laurinha",
+    name: "02: Descobrindo os Instrumentos",
     artist: "FortEditora",
     img: "musica-1",
     src: "video-1",
